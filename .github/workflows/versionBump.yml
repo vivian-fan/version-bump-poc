@@ -1,0 +1,60 @@
+name: VERSION BUMP AUTOMATION
+
+on:
+  pull_request:
+    branches: [master, develop]
+    types: [closed]
+
+jobs:
+  compute-version:
+    if: ${{ github.event.pull_request.merged }}
+    runs-on: ubuntu-latest
+    outputs:
+      matrix: ${{ steps.semver.outputs.matrix }}
+      branch_name: ${{ steps.branch_name.outputs.branch_name }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - name: Install Python3
+        uses: actions/setup-python@v2
+        with:
+          python-version: "3.x"
+
+      - name: Install Dependencies
+        run: |
+          chmod +x ./.github/intall-py-dependecies.sh
+          ./.github/intall-py-dependecies.sh
+
+      - name: Run Computer Version Script
+        id: semver
+        run:  echo "::set-output name=matrix::$(python ./.github/bump-version.py $GITHUB_REF $GITHUB_HEAD_REF)"
+        
+      - name: Get Branch Reference
+        id: branch_name
+        run: echo "::set-output name=branch_name::$GITHUB_REF"
+        
+  update-yaml:
+    needs: compute-version
+    runs-on: ubuntu-latest
+    strategy:
+      matrix: ${{fromJSON(needs.compute-version.outputs.matrix)}}
+      fail-fast: true
+      max-parallel: 1
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - name: Update Version on Yaml File
+        uses: fjogeleit/yaml-update-action@master
+        with:
+          valueFile: ${{ matrix.file }}
+          propertyPath: info.version
+          value: ${{ matrix.version }}
+          commitChange: true
+          updateFile: true
+          targetBranch: ${{ needs.compute-version.outputs.branch_name }}
+          masterBranchName: master
+          createPR: false
+          branch:  ${{ needs.compute-version.outputs.branch_name }}
+          message: Bump version to ${{ matrix.version }} in ${{ matrix.file }}
