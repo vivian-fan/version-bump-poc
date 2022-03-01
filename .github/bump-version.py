@@ -60,10 +60,12 @@ def compute_next_version(intent, latest_release_version, target_branch_version):
         next_version = target_branch_version
     return next_version
 
-target_branch = str(sys.argv[1])
+target_branch = str(sys.argv[2])
 print("target branch: ", target_branch)
-feature_branch = str(sys.argv[2])
+feature_branch = str(sys.argv[1])
 print("feature branch: ", feature_branch)
+
+print("password:", sys.argv[3])
 
 release_path = "./release"
 target_path = "./" + target_branch
