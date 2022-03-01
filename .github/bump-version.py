@@ -62,8 +62,8 @@ def compute_next_version(intent, latest_release_version, target_branch_version):
 
 remote = get_remote()
 
-target_branch = str(sys.argv[1])
-feature_branch = str(sys.argv[2])
+target_branch = str(sys.argv[2])
+feature_branch = str(sys.argv[3])
 
 release_path = "./release"
 target_path = "./" + target_branch
