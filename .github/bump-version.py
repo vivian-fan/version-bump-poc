@@ -59,16 +59,8 @@ def compute_next_version(intent, latest_release_version, target_branch_version):
         next_version = target_branch_version
     return next_version
 
-print('1', str(sys.argv[1]))
-print('2', str(sys.argv[2]))
-print('3', str(sys.argv[3]))
-
 feature_branch = str(sys.argv[1])
-print("feature branch: ", feature_branch)
 target_branch = str(sys.argv[2])
-print("target branch: ", target_branch)
-
-print("password:", sys.argv[3])
 
 release_path = "./release"
 target_path = "./" + target_branch
@@ -92,9 +84,7 @@ next_version_list = {"include": []}
 
 latest_commit = clone_repo_target.head.commit
 for file in latest_commit.stats.files:
-    if file.name.endswith("intent.yml"):
-        newly_committed_intent_file = file.name
-        break
+    print('debug: ', file)
 
 intents = read_intents(target_path, newly_committed_intent_file)
 
