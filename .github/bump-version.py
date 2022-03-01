@@ -23,7 +23,7 @@ def get_clone_repo(remote, path, branch):
 
 
 def read_intents(path, intent_file):
-    with open(path + intent_file, "r") as intent_content:
+    with open(path + "/" + intent_file, "r") as intent_content:
         return yaml.safe_load(intent_content)
 
 
