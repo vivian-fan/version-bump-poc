@@ -145,6 +145,6 @@ recalculate_version(version_matrix, intent_dic_dev, "develop")
 
 shutil.rmtree(master_path)
 shutil.rmtree(dev_path)
-shutil.rmtree(release_pathh)
+shutil.rmtree(release_path)
 
 print(json.dumps(version_matrix))
