@@ -82,9 +82,12 @@ clone_repo_release = get_clone_repo(remote, release_path, latest_release_branch)
 
 next_version_list = {"include": []}
 
+newly_committed_intent_file = None
 latest_commit = clone_repo_target.head.commit
 for file in latest_commit.stats.files:
-    print('debug: ', file)
+    if file.endswith("intent.yml"):
+        newly_committed_intent_file = file
+        break
 
 intents = read_intents(target_path, newly_committed_intent_file)
 
