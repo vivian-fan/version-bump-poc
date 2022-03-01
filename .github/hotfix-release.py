@@ -9,7 +9,7 @@ import json
 def get_remote():
     username = "vivian-fan"
     password = sys.argv[1]
-    remote = f"https://{username}:{password}@github.com/vivian-fan/version_bump_poc.git"
+    remote = f"https://{username}:{password}@github.com/vivian-fan/version-bump-poc.git"
     return remote
 
 
@@ -142,5 +142,9 @@ recalculate_version(version_matrix, intent_dic_master, "master")
 
 intent_dic_dev = combine_intents(dev_path, unreleased_intent_files_dev)
 recalculate_version(version_matrix, intent_dic_dev, "develop")
+
+shutil.rmtree(master_path)
+shutil.rmtree(dev_path)
+shutil.rmtree(release_pathh)
 
 print(json.dumps(version_matrix))
