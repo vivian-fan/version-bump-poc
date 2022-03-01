@@ -29,8 +29,8 @@ def get_intents(path, file):
 def get_intent_files(path):
     intent_files = [
         f
-        for f in listdir(path + "/")
-        if isfile(join(path + "/", f)) and f.name.endswith("intent.yml")
+        for f in os.listdir(path + "/")
+        if os.isfile(join(path + "/", f)) and f.endswith("intent.yml")
     ]
     return intent_files
 
@@ -45,9 +45,9 @@ def push_to_origin(target_path, target_branch):
         
 
 def delete_released_intent_files(path, released_intent_files, branch):
-    for f in listdir(path + "/"):
-        if isfile(join(path + "/", f)) and f.name.endswith("intent.yml"):
-            if f.name in released_intent_files:
+    for f in os.listdir(path + "/"):
+        if os.isfile(join(path + "/", f)) and f.endswith("intent.yml"):
+            if f in released_intent_files:
                 os.remove(f)
     push_to_origin(path, branch) 
 
@@ -112,7 +112,7 @@ def recalculate_version(version_matrix, intent_dic, target_branch):
         )
 
 remote = get_remote()
-
+        
 master_path = "./master"
 dev_path = "./develop"
 release_path = "./release"
