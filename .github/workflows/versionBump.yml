@@ -15,8 +15,6 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v2
-        with:
-          ref: $GITHUB_BASE_REF
 
       - name: Install Python3
         uses: actions/setup-python@v2
