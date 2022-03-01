@@ -30,11 +30,18 @@ jobs:
         env:
           USER_PASSWORD: ${{ secrets.TOKEN }}
         id: semver
-        run:  echo "::set-output name=matrix::$(python ./.github/bump-version.py $GITHUB_REF $GITHUB_HEAD_REF $USER_PASSWORD)"
+        run:  echo "::set-output name=matrix::$(python ./.github/bump-version.py $GITHUB_BASE_REF $GITHUB_HEAD_REF $USER_PASSWORD)"
         
       - name: Get Branch Reference
         id: branch_name
         run: echo "::set-output name=branch_name::$GITHUB_REF"
+        
+      - name: Debug
+        run: |
+          echo $GITHUB_HEAD_REF
+          echo $GITHUB_REF
+          echo $GITHUB_BASE_REF
+          
         
 #   update-yaml:
 #     needs: compute-version
