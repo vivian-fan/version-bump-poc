@@ -10,7 +10,6 @@ from json.decoder import JSONDecodeError
 def get_remote():
     username = "vivian-fan"
     password = sys.argv[3]
-    print("password", password)
     remote = f"https://{username}:{password}@github.com/vivian-fan/version-bump-poc.git"
     return remote
 
@@ -60,15 +59,14 @@ def compute_next_version(intent, latest_release_version, target_branch_version):
         next_version = target_branch_version
     return next_version
 
-print('0', str(sys.argv[0]))
 print('1', str(sys.argv[1]))
 print('2', str(sys.argv[2]))
 print('3', str(sys.argv[3]))
 
-target_branch = str(sys.argv[2])
-print("target branch: ", target_branch)
 feature_branch = str(sys.argv[1])
 print("feature branch: ", feature_branch)
+target_branch = str(sys.argv[2])
+print("target branch: ", target_branch)
 
 print("password:", sys.argv[3])
 
