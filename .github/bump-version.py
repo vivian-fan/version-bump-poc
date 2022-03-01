@@ -60,9 +60,6 @@ def compute_next_version(intent, latest_release_version, target_branch_version):
         next_version = target_branch_version
     return next_version
 
-
-remote = get_remote()
-
 target_branch = str(sys.argv[1])
 print("target branch: ", target_branch)
 feature_branch = str(sys.argv[2])
@@ -71,6 +68,8 @@ print("feature branch: ", feature_branch)
 release_path = "./release"
 target_path = "./" + target_branch
 feature_path = "./" + feature_branch
+
+remote = get_remote()
 
 clone_repo_target = get_clone_repo(remote, target_path, target_branch)
 clone_repo_feature = get_clone_repo(remote, feature_path, feature_branch)
