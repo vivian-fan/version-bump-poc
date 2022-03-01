@@ -1,0 +1,65 @@
+name: HOTFIX AND RELEASE VERSION BUMP
+
+on:
+  pull_request:
+    branches:
+      - "production_release_**"
+    types: [closed]
+  create:
+
+jobs:
+  calculate-version:
+    if: |
+      (github.event_name == 'pull_request' && github.event.pull_request.merged) ||
+      (github.event_name == 'create' && contains(github.ref, 'refs/heads/production_release'))
+
+    runs-on: ubuntu-latest
+    outputs:
+      matrix: ${{ steps.semver.outputs.matrix }}
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - name: Install Python3
+        uses: actions/setup-python@v2
+        with:
+          python-version: "3.x"
+
+      - name: Install Dependencies
+        run: |
+          chmod +x ./.github/intall-py-dependecies.sh
+          ./.github/intall-py-dependecies.sh
+
+      - name: Recompute Version on Develop and Master
+        id: semver
+        env:
+              USER_PASSWORD: ${{ secrets.TOKEN }}
+        run: |
+          python ./.github/hotfix_release.py $USER_PASSWORD
+          echo "::set-output name=matrix::$(python ./.github/hotfix_release.py $USER_PASSWORD)"
+
+  update-yaml:
+    needs: calculate-version
+    runs-on: ubuntu-latest
+    strategy:
+      matrix: ${{fromJSON(needs.calculate-version.outputs.matrix)}}
+      fail-fast: true
+      max-parallel: 1
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - name: Update Version on Yaml File
+        uses: fjogeleit/yaml-update-action@master
+        with:
+          valueFile: ${{ matrix.file }}
+          propertyPath: info.version
+          value: ${{ matrix.version }}
+          commitChange: true
+          updateFile: true
+          targetBranch: ${{ matrix.branch }}
+          masterBranchName: master
+          createPR: false
+          branch: ${{ matrix.branch }}
+          message: Bump version to ${{ matrix.version }} in ${{ matrix.file }} on ${{ matrix.branch }} branch.
