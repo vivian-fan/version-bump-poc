@@ -36,8 +36,8 @@ jobs:
         env:
               USER_PASSWORD: ${{ secrets.TOKEN }}
         run: |
-          python ./.github/hotfix_release.py $USER_PASSWORD
-          echo "::set-output name=matrix::$(python ./.github/hotfix_release.py $USER_PASSWORD)"
+          python ./.github/hotfix-release.py $USER_PASSWORD
+          echo "::set-output name=matrix::$(python ./.github/hotfix-release.py $USER_PASSWORD)"
 
   update-yaml:
     needs: calculate-version
