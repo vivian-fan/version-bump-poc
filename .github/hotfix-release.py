@@ -111,6 +111,7 @@ def recalculate_version(version_matrix, intent_dic, target_branch):
             {"file": file_name, "version": new_version, "branch": target_branch}
         )
 
+remote = get_remote()
 
 master_path = "./master"
 dev_path = "./develop"
