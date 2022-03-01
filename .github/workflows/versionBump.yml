@@ -30,7 +30,7 @@ jobs:
         env:
           USER_PASSWORD: ${{ secrets.TOKEN }}
         id: semver
-        run:  echo "::set-output name=matrix::$(python ./.github/bump-version.py $USER_PASSWORD $GITHUB_REF $GITHUB_HEAD_REF)"
+        run:  echo "::set-output name=matrix::$(python ./.github/bump-version.py $USER_PASSWORD $GITHUB_BASE_REF $GITHUB_HEAD_REF)"
         
       - name: Get Branch Reference
         id: branch_name
