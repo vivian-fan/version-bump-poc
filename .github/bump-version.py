@@ -60,6 +60,11 @@ def compute_next_version(intent, latest_release_version, target_branch_version):
         next_version = target_branch_version
     return next_version
 
+print(str(sys.argv[0]))
+print(str(sys.argv[1]))
+print(str(sys.argv[2]))
+print(str(sys.argv[3]))
+
 target_branch = str(sys.argv[2])
 print("target branch: ", target_branch)
 feature_branch = str(sys.argv[1])
