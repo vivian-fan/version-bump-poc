@@ -48,7 +48,7 @@ def delete_released_intent_files(path, released_intent_files, branch):
     for f in os.listdir(path + "/"):
         if os.path.isfile(path + "/" + f) and f.endswith("intent.yml"):
             if f in released_intent_files:
-                os.remove(f)
+                os.remove(path + "/" + f)
     push_to_origin(path, branch) 
 
 
