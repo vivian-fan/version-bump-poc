@@ -34,12 +34,22 @@ def get_intent_files(path):
     ]
     return intent_files
 
+def push_to_origin(target_path, target_branch):
+    try:
+        repo = git.Repo(target_path)
+        repo.git.add(update=True)
+        repo.index.commit("delete released intent files")
+        repo.git.push("origin", target_branch)
+    except Exception as e:
+        print("Errors occured while pushing the code", e)
+        
 
-def delete_released_intent_files(path, released_intent_files):
+def delete_released_intent_files(path, released_intent_files, branch):
     for f in listdir(path + "/"):
         if isfile(join(path + "/", f)) and f.name.endswith("intent.yml"):
             if f.name in released_intent_files:
                 os.remove(f)
+    push_to_origin(path, branch) 
 
 
 def get_version(path, file):
@@ -118,9 +128,9 @@ latest_release_branch = release_branches[-1].replace("origin/", "")
 clone_repo_release = get_clone_repo(remote, release_path, latest_release_branch)
 
 released_intent_files = get_intent_files(release_path)
-delete_released_intent_files(master_path, released_intent_files)
+delete_released_intent_files(master_path, released_intent_files, "master")
 unreleased_intent_files_master = get_intent_files(master_path)
-delete_released_intent_files(dev_path, released_intent_files)
+delete_released_intent_files(dev_path, released_intent_files, "develop")
 unreleased_intent_files_dev = get_intent_files(dev_path)
 
 version_matrix = {"include": []}
