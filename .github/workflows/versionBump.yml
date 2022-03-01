@@ -27,8 +27,10 @@ jobs:
           ./.github/intall-py-dependecies.sh
 
       - name: Run Computer Version Script
+        env:
+          USER_PASSWORD: ${{ secrets.TOKEN }}
         id: semver
-        run:  echo "::set-output name=matrix::$(python ./.github/bump-version.py $GITHUB_REF $GITHUB_HEAD_REF)"
+        run:  echo "::set-output name=matrix::$(python ./.github/bump-version.py $USER_PASSWORD $GITHUB_REF $GITHUB_HEAD_REF)"
         
       - name: Get Branch Reference
         id: branch_name
