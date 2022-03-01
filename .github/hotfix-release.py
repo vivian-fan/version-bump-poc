@@ -30,7 +30,7 @@ def get_intent_files(path):
     intent_files = [
         f
         for f in os.listdir(path + "/")
-        if os.path.isfile(path + "/" + f)) and f.endswith("intent.yml")
+        if os.path.isfile(path + "/" + f) and f.endswith("intent.yml")
     ]
     return intent_files
 
@@ -46,7 +46,7 @@ def push_to_origin(target_path, target_branch):
 
 def delete_released_intent_files(path, released_intent_files, branch):
     for f in os.listdir(path + "/"):
-        if os.path.isfile((path + "/" + f)) and f.endswith("intent.yml"):
+        if os.path.isfile(path + "/" + f) and f.endswith("intent.yml"):
             if f in released_intent_files:
                 os.remove(f)
     push_to_origin(path, branch) 
