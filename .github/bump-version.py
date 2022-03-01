@@ -27,7 +27,7 @@ def read_intents(path, intent_file):
         return yaml.safe_load(intent_content)
 
 
-def get_version_from_branch(path, file):
+def get_version(path, file):
     with open(path + "/" + file, "r") as spec_content:
         spec_content = yaml.safe_load(spec_content)
     return spec_content["info"]["version"]
