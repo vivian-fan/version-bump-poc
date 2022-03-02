@@ -7,7 +7,7 @@ on:
 
 jobs:
   compute-version:
-#     if: ${{ github.event.pull_request.merged }}
+    #     if: ${{ github.event.pull_request.merged }}
     runs-on: ubuntu-latest
     outputs:
       matrix: ${{ steps.semver.outputs.matrix }}
@@ -30,15 +30,14 @@ jobs:
         env:
           USER_PASSWORD: ${{ secrets.TOKEN }}
         id: semver
-        run:  |
+        run: |
           python ./.github/bump-version.py $GITHUB_HEAD_REF $GITHUB_BASE_REF $USER_PASSWORD
           echo "::set-output name=matrix::$(python ./.github/bump-version.py $GITHUB_HEAD_REF $GITHUB_BASE_REF $USER_PASSWORD)"
-        
+
       - name: Get Branch Reference
         id: branch_name
         run: echo "::set-output name=branch_name::$GITHUB_HEAD_REF"
-          
-        
+
   update-yaml:
     needs: compute-version
     runs-on: ubuntu-latest
@@ -61,9 +60,9 @@ jobs:
           targetBranch: ${{ needs.compute-version.outputs.branch_name }}
           masterBranchName: master
           createPR: false
-          branch:  ${{ needs.compute-version.outputs.branch_name }}
+          branch: ${{ needs.compute-version.outputs.branch_name }}
           message: Bump version to ${{ matrix.version }} in ${{ matrix.file }}
-          
+
   finish-workflow:
     needs: update-yaml
     runs-on: ubuntu-latest
