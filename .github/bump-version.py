@@ -67,7 +67,7 @@ def mostRecentIntentFile(path):
     file_times = dict();
     for file in all_files:
         if file.endswith("intent.yml"):
-            file_times[file] = time.time() - os.stat(file).st_ctime;
+            file_times[file] = time.time() - os.stat(path + "/" + file).st_ctime;
     return  sorted(file_times.items(), key=operator.itemgetter(1))[0][0]
 
 feature_branch = str(sys.argv[1])
