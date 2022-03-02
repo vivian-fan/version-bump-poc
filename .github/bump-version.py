@@ -64,10 +64,10 @@ def compute_next_version(intent, latest_release_version, target_branch_version):
 
 def mostRecentIntentFile(path):
     all_files = os.listdir(path);
-    file_ctime = dict();
+    file_times = dict();
     for file in all_files:
         if file.endswith("intent.yml"):
-            file_times[e] = time.time() - os.stat(e).st_ctime;
+            file_times[file] = time.time() - os.stat(file).st_ctime;
     return  sorted(file_times.items(), key=operator.itemgetter(1))[0][0]
 
 feature_branch = str(sys.argv[1])
