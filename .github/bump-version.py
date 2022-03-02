@@ -83,13 +83,13 @@ clone_repo_release = get_clone_repo(remote, release_path, latest_release_branch)
 next_version_list = {"include": []}
 
 newly_committed_intent_file = None
-latest_commit = clone_repo_target.head.commit
+latest_commit = clone_repo_feature.head.commit
 for file in latest_commit.stats.files:
     if file.endswith("intent.yml"):
         newly_committed_intent_file = file
         break
 
-intents = read_intents(target_path, newly_committed_intent_file)
+intents = read_intents(feature_path, newly_committed_intent_file)
 
 for file_name, intent in intents["intent"].items():
     file = file_name + ".yaml"
