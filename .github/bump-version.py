@@ -83,7 +83,7 @@ clone_repo_release = get_clone_repo(remote, release_path, latest_release_branch)
 next_version_list = {"include": []}
 
 newly_committed_intent_file = None
-for commit in clone_repo_feature.iter_commits():
+for commit in clone_repo_feature.iter_commits(feature_branch):
     for file in commit.stats.files:
         if file.endswith("intent.yml"):
             newly_committed_intent_file = file
