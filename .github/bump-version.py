@@ -1,5 +1,6 @@
 import os
 import sys
+import time
 import shutil
 import yaml
 import git
@@ -59,6 +60,14 @@ def compute_next_version(intent, latest_release_version, target_branch_version):
         next_version = target_branch_version
     return next_version
 
+def mostRecentIntentFile(path):
+    all_files = os.listdir(path);
+    file_ctime = dict();
+    for file in all_files:
+        if file.endswith("intent.yml"):
+            file_times[e] = time.time() - os.stat(e).st_ctime;
+    return  sorted(file_times.items(), key=operator.itemgetter(1))[0][0]
+
 feature_branch = str(sys.argv[1])
 target_branch = str(sys.argv[2])
 
@@ -82,14 +91,14 @@ clone_repo_release = get_clone_repo(remote, release_path, latest_release_branch)
 
 next_version_list = {"include": []}
 
-newly_committed_intent_file = None
-for commit in clone_repo_feature.iter_commits(feature_branch):
-    for file in commit.stats.files:
-        if file.endswith("intent.yml"):
-            newly_committed_intent_file = file
-            print('debug: ', commit, file)
+recent_intent_file = mostRecentIntentFile(feature_path + "/")
+# for commit in clone_repo_feature.iter_commits(feature_branch):
+#     for file in commit.stats.files:
+#         if file.endswith("intent.yml"):
+#             newly_committed_intent_file = file
+#             print('debug: ', commit, file)
 
-intents = read_intents(feature_path, newly_committed_intent_file)
+intents = read_intents(feature_path, recent_intent_file)
 
 for file_name, intent in intents["intent"].items():
     file = file_name + ".yaml"
