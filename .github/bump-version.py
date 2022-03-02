@@ -87,6 +87,7 @@ for commit in clone_repo_feature.iter_commits(feature_branch):
     for file in commit.stats.files:
         if file.endswith("intent.yml"):
             newly_committed_intent_file = file
+            break
 
 intents = read_intents(feature_path, newly_committed_intent_file)
 
