@@ -36,7 +36,7 @@ jobs:
         
       - name: Get Branch Reference
         id: branch_name
-        run: echo "::set-output name=branch_name::$GITHUB_REF"
+        run: echo "::set-output name=branch_name::$GITHUB_HEAD_REF"
           
         
   update-yaml:
