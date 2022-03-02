@@ -63,3 +63,10 @@ jobs:
           createPR: false
           branch:  ${{ needs.compute-version.outputs.branch_name }}
           message: Bump version to ${{ matrix.version }} in ${{ matrix.file }}
+          
+  finish-workflow:
+    needs: update-yaml
+    runs-on: ubuntu-latest
+    steps:
+      - name: Report
+        run: echo "Workflow is finished"
