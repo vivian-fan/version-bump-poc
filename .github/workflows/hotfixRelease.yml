@@ -63,3 +63,10 @@ jobs:
           createPR: false
           branch: ${{ matrix.branch }}
           message: Bump version to ${{ matrix.version }} in ${{ matrix.file }} on ${{ matrix.branch }} branch.
+
+  finish-workflow:
+    needs: update-yaml
+    runs-on: ubuntu-latest
+    steps:
+      - name: Exit with success
+        run: exit 0
