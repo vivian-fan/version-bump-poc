@@ -66,11 +66,20 @@ jobs:
   finish-workflow:
     needs: update-yaml
     runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        node-version: [10.x]
     steps:
-      - uses: LouisBrunner/checks-action@v1.1.1
-        with:
-          token: ${{ secrets.TOKEN }}
-          name: Test Version Bump Automation
-          conclusion: success
-          output: |
-            {"summary": "Version Bump Automation Run Successfully"}
+    - uses: actions/checkout@v1
+    - name: Use Node.js ${{ matrix.node-version }}
+      uses: actions/setup-node@v1
+      with:
+        node-version: ${{ matrix.node-version }}
+    - name: Install and build
+      run: |
+        npm install
+        npm run build
+    - name: Run status checks
+      run: node path/to/status-checks
+      env:
+        GITHUB_TOKEN: ${{ secrets.TOKEN }}
