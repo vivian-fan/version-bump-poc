@@ -67,5 +67,10 @@ jobs:
     needs: update-yaml
     runs-on: ubuntu-latest
     steps:
-      - name: Report
-        run: echo "Workflow is finished"
+      - uses: LouisBrunner/checks-action@v1.1.1
+        with:
+          token: ${{ secrets.TOKEN }}
+          name: Test Version Bump Automation
+          conclusion: success
+          output: |
+            {"summary": "Version Bump Automation Run Successfully"}
